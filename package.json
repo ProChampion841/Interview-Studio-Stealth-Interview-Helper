@@ -1,0 +1,85 @@
+{
+  "name": "interview-studio",
+  "version": "0.1.1",
+  "private": true,
+  "description": "A visible BYOK assistant for live interviews where AI assistance is explicitly permitted.",
+  "main": "./out/main/index.js",
+  "author": "Interview Studio contributors",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node scripts/run-electron-vite.cjs dev",
+    "build": "npm run typecheck && electron-vite build",
+    "preview": "node scripts/run-electron-vite.cjs preview",
+    "typecheck": "tsc --build --pretty false",
+    "test": "vitest run",
+    "test:offline": "node scripts/test-offline-captions.cjs",
+    "test:cache": "node scripts/test-http-cache.cjs",
+    "test:floating-bar": "node scripts/test-floating-bar.cjs",
+    "test:history": "node scripts/test-conversation-history.cjs",
+    "test:history-failures": "node scripts/test-history-failures.cjs",
+    "test:long-interview": "node scripts/test-long-interview.cjs",
+    "test:translation-retry": "node scripts/test-translation-retry.cjs",
+    "test:openrouter-budget": "node scripts/test-openrouter-budget.cjs",
+    "test:question-recovery": "node scripts/test-question-recovery.cjs",
+    "test:ui-audit": "node scripts/test-ui-audit.cjs",
+    "test:provider-fallback": "node scripts/test-provider-fallback.cjs",
+    "test:watch": "vitest",
+    "package": "npm run build && electron-builder --dir",
+    "dist:win": "npm run build && electron-builder --win nsis"
+  },
+  "dependencies": {
+    "@ozymandiasthegreat/vad": "2.0.7",
+    "ctranslate2": "1.0.0",
+    "koffi": "^2.16.3",
+    "lucide-react": "^0.544.0",
+    "openai": "^6.7.0",
+    "pdf-parse": "^2.4.5",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "sherpa-onnx-node": "1.13.8",
+    "yauzl": "3.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.7.2",
+    "@types/react": "^19.1.16",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^5.0.4",
+    "electron": "^38.2.2",
+    "electron-builder": "^26.0.12",
+    "electron-vite": "^4.0.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.9",
+    "vitest": "^3.2.4"
+  },
+  "build": {
+    "appId": "com.interviewstudio.desktop",
+    "productName": "Interview Studio",
+    "asar": true,
+    "asarUnpack": [
+      "**/node_modules/koffi/**",
+      "**/node_modules/sherpa-onnx-node/**",
+      "**/node_modules/sherpa-onnx-*/**",
+      "**/node_modules/ctranslate2/**"
+    ],
+    "afterPack": "scripts/after-pack.cjs",
+    "files": [
+      "out/**/*",
+      "build/icon.png",
+      "build/third-party-notices.txt",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "icon": "build/icon.png",
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}

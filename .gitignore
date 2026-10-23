@@ -1,0 +1,14 @@
+node_modules/
+out/
+release/
+dist/
+.vite/
+coverage/
+.smoke-profile/
+*.tsbuildinfo
+*.log
+.DS_Store
+Thumbs.db
+.env
+.env.*
+!.env.example
